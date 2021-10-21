@@ -6,23 +6,23 @@
             "addr": "0x17"
         },
         "dht22": {
-            "enable": false,
+            "enable": true,
             "pin": 12
         },
         "ds18b20": {
-            "enable": false
+            "enable": true
         },
         "ltr390": {
-            "enable": false
+            "enable": true
         },
         "mcp9808": {
-            "enable": false
+            "enable": true
         },
         "sht4x": {
-            "enable": false
+            "enable": true
         },
         "dps310": {
-            "enable": false
+            "enable": true
         }
     }
 }
