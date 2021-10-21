@@ -1,0 +1,28 @@
+{
+    "sensors": {
+        "hub": {
+            "enable": false,
+            "bus": 1,
+            "addr": "0x17"
+        },
+        "dht22": {
+            "enable": false,
+            "pin": 12
+        },
+        "ds18b20": {
+            "enable": false
+        },
+        "ltr390": {
+            "enable": false
+        },
+        "mcp9808": {
+            "enable": false
+        },
+        "sht4x": {
+            "enable": false
+        },
+        "dps310": {
+            "enable": false
+        }
+    }
+}
