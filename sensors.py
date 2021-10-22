@@ -63,7 +63,7 @@ if config["ds18b20"]:
             }
         )
     except:
-        warnings.append("ds18b20: ", str(sys.exc_info()[0]))
+        warnings.append("ds18b20: " + str(sys.exc_info()[0]))
 
 if config["ltr390"]:
     import adafruit_ltr390
@@ -87,7 +87,7 @@ if config["ltr390"]:
             }
         )
     except:
-        warnings.append("ltr390: ", str(sys.exc_info()[0]))
+        warnings.append("ltr390: " + str(sys.exc_info()[0]))
 
 if config["mcp9808"]:
     import adafruit_mcp9808
@@ -103,7 +103,7 @@ if config["mcp9808"]:
             }
         )
     except:
-        warnings.append("mcp: ", str(sys.exc_info()[0]))
+        warnings.append("mcp: " + str(sys.exc_info()[0]))
 
 
 if config["sht4x"]:
@@ -130,7 +130,7 @@ if config["sht4x"]:
             }
         )
     except:
-        warnings.append("sht4x: ", str(sys.exc_info()[0]))
+        warnings.append("sht4x: " + str(sys.exc_info()[0]))
 
 if config["dps310"]:
     import adafruit_dps310
@@ -154,7 +154,7 @@ if config["dps310"]:
             }
         )
     except:
-        warnings.append("dps310: ", str(sys.exc_info()[0]))
+        warnings.append("dps310: " + str(sys.exc_info()[0]))
 
 
 results.append(
