@@ -3,15 +3,15 @@ import json
 import sys
 
 
-settings_file = open("settings.json")
-settings = json.load(settings_file)
-settings_file.close()
+config_file = open("sensors_config.json")
+config = json.load(config_file)
+config_file.close()
 
 if (
-    settings["ltr390"]
-    or settings["mcp9808"]
-    or settings["sht4x"]
-    or settings["dps310"]
+    config["ltr390"]
+    or config["mcp9808"]
+    or config["sht4x"]
+    or config["dps310"]
 ):
     import board
 
@@ -20,12 +20,12 @@ if (
 results = []
 warnings = []
 
-if settings["dht22"]["enable"]:
+if config["dht22"]["enable"]:
     import Adafruit_DHT
 
     sensor = Adafruit_DHT.DHT22
     humidity, temperature = Adafruit_DHT.read_retry(
-        sensor, settings["dht22"]["pin"]
+        sensor, config["dht22"]["pin"]
     )
     if humidity is not None and temperature is not None:
         results.append(
@@ -48,7 +48,7 @@ if settings["dht22"]["enable"]:
         warnings.append("DHT22 could not be read.")
 
 
-if settings["ds18b20"]:
+if config["ds18b20"]:
     from w1thermsensor import W1ThermSensor
 
     try:
@@ -65,7 +65,7 @@ if settings["ds18b20"]:
     except:
         warnings.append("ds18b20: ", str(sys.exc_info()[0]))
 
-if settings["ltr390"]:
+if config["ltr390"]:
     import adafruit_ltr390
 
     try:
@@ -89,7 +89,7 @@ if settings["ltr390"]:
     except:
         warnings.append("ltr390: ", str(sys.exc_info()[0]))
 
-if settings["mcp9808"]:
+if config["mcp9808"]:
     import adafruit_mcp9808
 
     try:
@@ -106,7 +106,7 @@ if settings["mcp9808"]:
         warnings.append("mcp: ", str(sys.exc_info()[0]))
 
 
-if settings["sht4x"]:
+if config["sht4x"]:
     import adafruit_sht4x
 
     try:
@@ -132,7 +132,7 @@ if settings["sht4x"]:
     except:
         warnings.append("sht4x: ", str(sys.exc_info()[0]))
 
-if settings["dps310"]:
+if config["dps310"]:
     import adafruit_dps310
 
     try:
