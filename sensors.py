@@ -157,6 +157,111 @@ if config["dps310"]:
         warnings.append("dps310: " + str(sys.exc_info()[0]))
 
 
+if config["hub"]["enable"] :
+    import smbus
+
+    SENSOR_HUB_DEVICE_ADDR = int(config["hub"]["addr"], 16)
+    TEMP_REG = 0x01
+    LIGHT_REG_L = 0x02
+    LIGHT_REG_H = 0x03
+    STATUS_REG = 0x04
+    ON_BOARD_TEMP_REG = 0x05
+    ON_BOARD_HUMIDITY_REG = 0x06
+    ON_BOARD_SENSOR_ERROR = 0x07
+    BMP280_TEMP_REG = 0x08
+    BMP280_PRESSURE_REG_L = 0x09
+    BMP280_PRESSURE_REG_M = 0x0A
+    BMP280_PRESSURE_REG_H = 0x0B
+    BMP280_STATUS = 0x0C
+    HUMAN_DETECT = 0x0D
+
+    bus = smbus.SMBus(config["hub"]["bus"])
+
+    aReceiveBuf = []
+
+    aReceiveBuf.append(0x00) # 占位符
+
+    for i in range(TEMP_REG,HUMAN_DETECT + 1):
+        aReceiveBuf.append(bus.read_byte_data(SENSOR_HUB_DEVICE_ADDR, i))
+
+
+
+
+    if aReceiveBuf[STATUS_REG] & 0x01 :
+        warnings.append("HUB: Off-Board temperature sensor overrange!")
+    elif aReceiveBuf[STATUS_REG] & 0x02 :
+        res = False
+    else :
+        results.append({
+            "channel": "Temperature (Off-Board)",
+            "customunit": "°C",
+            "value": aReceiveBuf[TEMP_REG]
+        })
+
+    res = {
+        "channel": "Brightness",
+        "customunit": "Lux",
+        "value": 0
+    }
+
+    if aReceiveBuf[STATUS_REG] & 0x04 :
+        res["warning"] = 1
+        warnings.append("HUB: Onboard brightness sensor overrange!")
+    elif aReceiveBuf[STATUS_REG] & 0x08 :
+        res["warning"] = 1
+        warnings.append("HUB: Onboard brightness sensor failure!")
+    else :
+        res["value"] = (aReceiveBuf[LIGHT_REG_H] << 8 | aReceiveBuf[LIGHT_REG_L])
+    results.append(res)
+
+    res = {
+        "channel": "Temperature (On-Board)",
+        "customunit": "°C",
+        "value": aReceiveBuf[ON_BOARD_TEMP_REG]
+    }
+    if aReceiveBuf[ON_BOARD_SENSOR_ERROR] != 0 :
+        res["warning"] = 1
+        warnings.append("HUB: Onboard temperature sensor data may not be up to date!")
+    results.append(res)
+
+    res = {
+        "channel": "Humidity (On-Board)",
+        "customunit": "%",
+        "value": aReceiveBuf[ON_BOARD_HUMIDITY_REG]
+    }
+    if aReceiveBuf[ON_BOARD_SENSOR_ERROR] != 0 :
+        res["warning"] = 1
+        warnings.append("HUB: Onboard humidity sensor data may not be up to date!")
+    results.append(res)
+
+
+
+
+    if aReceiveBuf[BMP280_STATUS] == 0 :
+        res = {
+            "channel": "Temperature (Barometer)",
+            "customunit": "°C",
+            "value": aReceiveBuf[BMP280_TEMP_REG]
+        }
+        results.append(res)
+        res = {
+            "channel": "Pressure (BaroMeter)",
+            "customunit": "pascal",
+            "value": (aReceiveBuf[BMP280_PRESSURE_REG_L] | aReceiveBuf[BMP280_PRESSURE_REG_M] << 8 | aReceiveBuf[BMP280_PRESSURE_REG_H] << 16)
+        }
+        results.append(res)
+    else :
+        warnings.append("HUB: Onboard barometer works abnormally!")
+
+    results.append({
+        "channel": "Motion Detection",
+        "value": aReceiveBuf[HUMAN_DETECT] 
+    })
+
+
+
+
+
 results.append(
     {
         "channel": "Warnings",
