@@ -69,7 +69,6 @@ if settings["sensors"]["ltr390"]["enable"]:
     import adafruit_ltr390
 
     try:
-        i2c = board.I2C()
         ltr = adafruit_ltr390.LTR390(i2c)
         results.append(
             {
