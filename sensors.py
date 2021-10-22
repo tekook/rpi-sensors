@@ -8,10 +8,10 @@ settings = json.load(settings_file)
 settings_file.close()
 
 if (
-    settings["sensors"]["ltr390"]["enable"]
-    or settings["sensors"]["mcp9808"]["enable"]
-    or settings["sensors"]["sht4x"]["enable"]
-    or settings["sensors"]["dps310"]["enable"]
+    settings["ltr390"]
+    or settings["mcp9808"]
+    or settings["sht4x"]
+    or settings["dps310"]
 ):
     import board
 
@@ -20,12 +20,12 @@ if (
 results = []
 warnings = []
 
-if settings["sensors"]["dht22"]["enable"]:
+if settings["dht22"]["enable"]:
     import Adafruit_DHT
 
     sensor = Adafruit_DHT.DHT22
     humidity, temperature = Adafruit_DHT.read_retry(
-        sensor, settings["sensors"]["dht22"]["pin"]
+        sensor, settings["dht22"]["pin"]
     )
     if humidity is not None and temperature is not None:
         results.append(
@@ -48,7 +48,7 @@ if settings["sensors"]["dht22"]["enable"]:
         warnings.append("DHT22 could not be read.")
 
 
-if settings["sensors"]["ds18b20"]["enable"]:
+if settings["ds18b20"]:
     from w1thermsensor import W1ThermSensor
 
     try:
@@ -65,7 +65,7 @@ if settings["sensors"]["ds18b20"]["enable"]:
     except:
         warnings.append("ds18b20: ", str(sys.exc_info()[0]))
 
-if settings["sensors"]["ltr390"]["enable"]:
+if settings["ltr390"]:
     import adafruit_ltr390
 
     try:
@@ -89,7 +89,7 @@ if settings["sensors"]["ltr390"]["enable"]:
     except:
         warnings.append("ltr390: ", str(sys.exc_info()[0]))
 
-if settings["sensors"]["mcp9808"]["enable"]:
+if settings["mcp9808"]:
     import adafruit_mcp9808
 
     try:
@@ -106,7 +106,7 @@ if settings["sensors"]["mcp9808"]["enable"]:
         warnings.append("mcp: ", str(sys.exc_info()[0]))
 
 
-if settings["sensors"]["sht4x"]["enable"]:
+if settings["sht4x"]:
     import adafruit_sht4x
 
     try:
@@ -132,7 +132,7 @@ if settings["sensors"]["sht4x"]["enable"]:
     except:
         warnings.append("sht4x: ", str(sys.exc_info()[0]))
 
-if settings["sensors"]["dps310"]["enable"]:
+if settings["dps310"]:
     import adafruit_dps310
 
     try:
