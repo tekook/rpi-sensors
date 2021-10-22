@@ -33,7 +33,7 @@ if settings["dht22"]["enable"]:
                 "channel": "Temperature (DHT22)",
                 "customunit": "°C",
                 "float": 1,
-                "value": float(format(temperature, "0.1f")),
+                "value": float(temperature),
             }
         )
         results.append(
@@ -41,7 +41,7 @@ if settings["dht22"]["enable"]:
                 "channel": "Humidity (DHT22)",
                 "customunit": "%",
                 "float": 1,
-                "value": float(format(humidity, "0.1f")),
+                "value": float(humidity),
             }
         )
     else:
@@ -59,7 +59,7 @@ if settings["ds18b20"]:
                 "channel": "Temperature (DS18B20)",
                 "customunit": "°C",
                 "float": 1,
-                "value": float(format(temperature_in_celsius, "0.4f")),
+                "value": float(temperature_in_celsius),
             }
         )
     except:
@@ -99,7 +99,7 @@ if settings["mcp9808"]:
                 "channel": "Temperature (MCP9808)",
                 "customunit": "°C",
                 "float": 1,
-                "value": float(format(mcp.temperature, "0.4f")),
+                "value": float(mcp.temperature),
             }
         )
     except:
@@ -118,7 +118,7 @@ if settings["sht4x"]:
                 "channel": "Temperature (SHT4x)",
                 "customunit": "°C",
                 "float": 1,
-                "value": float(format(temperature, "0.4f")),
+                "value": float(temperature),
             }
         )
         results.append(
@@ -126,7 +126,7 @@ if settings["sht4x"]:
                 "channel": "Humidity (SHT4x)",
                 "customunit": "%",
                 "float": 1,
-                "value": float(format(relative_humidity, "0.4f")),
+                "value": float(relative_humidity),
             }
         )
     except:
@@ -142,7 +142,7 @@ if settings["dps310"]:
                 "channel": "Temperature (DPS310)",
                 "customunit": "°C",
                 "float": 1,
-                "value": float(format(dps310.temperature, "0.4f")),
+                "value": float(dps310.temperature),
             }
         )
         results.append(
@@ -150,7 +150,7 @@ if settings["dps310"]:
                 "channel": "Pressure (SHT4x)",
                 "customunit": "hPa",
                 "float": 1,
-                "value": float(format(dps310.pressure, "0.4f")),
+                "value": float(dps310.pressure),
             }
         )
     except:
