@@ -12,4 +12,4 @@ def json_dump():
     return json.dumps({"prtg": {"result": val[0], "text": val[1]}}, sort_keys=True, indent=4)
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0')
+    app.run()
