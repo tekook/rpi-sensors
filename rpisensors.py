@@ -267,6 +267,54 @@ def getHUB(addr, bus):
         "value": aReceiveBuf[HUMAN_DETECT] 
     })
 
-
-
     return results, warnings
+
+def getAll():
+    import board
+    i2c = board.I2C()
+    results = []
+    warnings = []
+    config = getConfig()
+
+    if config["dht22"]["enable"]:
+        val = getDHT22(config["dht22"]["pin"])
+        results += val[0]
+        warnings += val[1]
+    if config["ds18b20"]:
+        val = getDS18B20()
+        results += val[0]
+        warnings += val[1]
+    if config["ltr390"]:
+        val = getLTR390(i2c)
+        results += val[0]
+        warnings += val[1]
+    if config["mcp9808"]:
+        val = getMCP9808(i2c)
+        results += val[0]
+        warnings += val[1]
+    if config["sht4x"]:
+        val = getSHT4X(i2c)
+        results += val[0]
+        warnings += val[1]
+    if config["dps310"]:
+        val = getDPS310(i2c)
+        results += val[0]
+        warnings += val[1]
+    if config["hub"]["enable"]:
+        val = getHUB(config["hub"]["addr"], config["hub"]["bus"])
+        results += val[0]
+        warnings += val[1]
+
+
+    results.append(
+        {
+            "channel": "Warnings",
+            "value": len(warnings),
+            "warning": 0 if len(warnings) == 0 else 1,
+        }
+    )
+    if len(warnings) == 0:
+        text = "OK"
+    else:
+        text = ", ".join(warnings)
+    return results, text
