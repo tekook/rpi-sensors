@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import json, os, sys
 
 def getConfig():
