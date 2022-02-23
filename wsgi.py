@@ -5,11 +5,9 @@ from flask import Flask
 
 app = Flask(__name__)
 
-val = rpisensors.getAll()
-
-
 @app.route("/")
 def json_dump():
+    val = rpisensors.getAll()
     return json.dumps({"prtg": {"result": val[0], "text": val[1]}}, sort_keys=True, indent=4)
 
 if __name__ == "__main__":
