@@ -1,6 +1,8 @@
 #! /usr/bin/env python3
 import rpisensors, board, json
+from flask import Flask
 
+app = Flask(__name__)
 i2c = board.I2C()
 results = []
 warnings = []
@@ -48,7 +50,10 @@ if len(warnings) == 0:
 else:
     text = ", ".join(warnings)
 
-print(
-    json.dumps({"prtg": {"result": results, "text": text}}, sort_keys=True, indent=4),
-    end="",
-)
+
+@app.route("/")
+def json_dump():
+    return json.dumps({"prtg": {"result": results, "text": text}}, sort_keys=True, indent=4)
+
+if __name__ == "__main__":
+    app.run()
