@@ -1,0 +1,11 @@
+adafruit-circuitpython-dht
+adafruit-circuitpython-ltr390
+adafruit-circuitpython-mcp9808
+adafruit-circuitpython-sht4x
+adafruit-circuitpython-dps310
+adafruit-circuitpython-ds18x20
+Adafruit-DHT
+w1thermsensor
+smbus
+flask
+gunicorn

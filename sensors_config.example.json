@@ -1,0 +1,16 @@
+{
+    "hub": {
+        "enable": false,
+        "bus": 1,
+        "addr": "0x17"
+    },
+    "dht22": {
+        "enable": true,
+        "pin": 12
+    },
+    "ds18b20": true,
+    "ltr390": true,
+    "mcp9808": true,
+    "sht4x": true,
+    "dps310": true
+}
