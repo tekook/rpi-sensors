@@ -24,6 +24,7 @@ def getDHT22(pin):
                 "customunit": "°C",
                 "float": 1,
                 "value": float(temperature),
+                "valueR": round(float(temperature), 2),
             }
         )
         results.append(
@@ -32,6 +33,7 @@ def getDHT22(pin):
                 "customunit": "%",
                 "float": 1,
                 "value": float(humidity),
+                "valueR": round(float(humidity), 2),
             }
         )
     else:
@@ -52,6 +54,7 @@ def getDS18B20():
                 "customunit": "°C",
                 "float": 1,
                 "value": float(temperature_in_celsius),
+                "valueR": round(float(temperature_in_celsius), 2),
             }
         )
     except:
@@ -102,6 +105,7 @@ def getMCP9808(i2c):
                 "customunit": "°C",
                 "float": 1,
                 "value": float(mcp.temperature),
+                "valueR": round(float(mcp.temperature), 2)
             }
         )
     except:
@@ -123,6 +127,7 @@ def getSHT4X(i2c):
                 "customunit": "°C",
                 "float": 1,
                 "value": float(temperature),
+                "valueR": round(float(temperature), 2)
             }
         )
         results.append(
@@ -131,6 +136,7 @@ def getSHT4X(i2c):
                 "customunit": "%",
                 "float": 1,
                 "value": float(relative_humidity),
+                "valueR": round(float(relative_humidity), 2)
             }
         )
     except:
@@ -151,6 +157,7 @@ def getDPS310(i2c):
                 "customunit": "°C",
                 "float": 1,
                 "value": float(dps310.temperature),
+                "valueR": round(float(dps310.temperature), 2)
             }
         )
         results.append(
@@ -159,6 +166,7 @@ def getDPS310(i2c):
                 "customunit": "hPa",
                 "float": 1,
                 "value": float(dps310.pressure),
+                "valueR": round(float(dps310.pressure), 2)
             }
         )
     except:
