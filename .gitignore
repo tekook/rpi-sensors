@@ -1,3 +1,5 @@
+#rpi-sensors
+/rpi-sensors.sock
 /sensors_config.json
 
 # Byte-compiled / optimized / DLL files

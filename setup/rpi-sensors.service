@@ -1,0 +1,14 @@
+[Unit]
+Description=rpi-sensors.service
+After=network.target
+ 
+[Service]
+User=www-data
+Group=www-data
+WorkingDirectory=/var/www/rpi-sensors
+Environment="FLASK_ENV=production"
+Environment="SECRET_KEY=REPLACE THIS BEFORE INSTALLING"
+ExecStart=/var/www/rpi-sensors/venv/bin/gunicorn --pythonpath=/var/www/rpi-sensors/venv/lib/python3.7/site-packages --workers 1 --bind unix:/var/www/rpi-sensors/rpi-sensors.sock wsgi:app
+ 
+[Install]
+WantedBy=multi-user.target
