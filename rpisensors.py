@@ -162,7 +162,7 @@ def getDPS310(i2c):
         )
         results.append(
             {
-                "channel": "Pressure (SHT4x)",
+                "channel": "Pressure (DPS310)",
                 "customunit": "hPa",
                 "float": 1,
                 "value": float(dps310.pressure),
