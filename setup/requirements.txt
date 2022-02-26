@@ -7,3 +7,5 @@ adafruit-circuitpython-ds18x20
 Adafruit-DHT
 w1thermsensor
 smbus
+flask
+gunicorn
