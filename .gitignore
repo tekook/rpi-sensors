@@ -1,6 +1,7 @@
 #rpi-sensors
 /rpi-sensors.sock
 /sensors_config.json
+/config.json
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
