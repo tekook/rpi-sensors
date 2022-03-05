@@ -2,7 +2,12 @@
 import json, os, sys
 
 def getConfig():
-    config_file = open(os.path.dirname(os.path.realpath(__file__)) + "/sensors_config.json")
+    dir = os.path.dirname(os.path.realpath(__file__))
+    if os.path.isfile(dir + "/sensors_config.json"):
+        config_file = open(dir + "/sensors_config.json")
+    else:
+        config_file = open(dir + "/config.json")
+
     config = json.load(config_file)
     config_file.close()
     return config
@@ -173,7 +178,7 @@ def getDPS310(i2c):
         warnings.append("dps310: " + str(sys.exc_info()[0]))
     return results, warnings
 
-def getHUB(addr, bus):
+def getHUB(addr = "0x17", bus = 1):
     import smbus
     results = []
     warnings = []

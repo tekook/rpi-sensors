@@ -9,7 +9,8 @@ calls = {
     'ltr390': {'func': rpisensors.getLTR390, 'arg': board.I2C},
     'ds18b20': {'func': rpisensors.getDS18B20, 'arg': False},
     'mcp9808': {'func': rpisensors.getMCP9808, 'arg': board.I2C},
-    'dps310': {'func': rpisensors.getDPS310, 'arg': board.I2C}
+    'dps310': {'func': rpisensors.getDPS310, 'arg': board.I2C},
+    'hub': {'func': rpisensors.getHUB, 'arg': False}
 }
 
 @app.route("/prtg")
