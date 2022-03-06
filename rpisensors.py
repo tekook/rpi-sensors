@@ -115,7 +115,7 @@ def getMCP9808(i2c):
         )
     except:
         warnings.append("mcp: " + str(sys.exc_info()[0]))
-    return {"results": results, "warnings": warnings}
+    return results, warnings
 
 def getSHT4X(i2c):
     import adafruit_sht4x
