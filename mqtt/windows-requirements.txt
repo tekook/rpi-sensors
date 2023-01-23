@@ -1,0 +1,15 @@
+Adafruit-Blinka
+adafruit-circuitpython-busdevice
+adafruit-circuitpython-DHT
+adafruit-circuitpython-dps310
+adafruit-circuitpython-ds18x20
+adafruit-circuitpython-ltr390
+adafruit-circuitpython-mcp9808
+adafruit-circuitpython-onewire
+adafruit-circuitpython-register
+adafruit-circuitpython-sht4x
+adafruit-circuitpython-typing
+Adafruit-PlatformDetect
+Adafruit-PureIO
+paho-mqtt
+w1thermsensor
