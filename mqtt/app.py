@@ -23,7 +23,7 @@ def quit(signo, _frame):
 def main():
     client.loop_start()
     while not exit.is_set():
-        lib.loop(config, calls,client)
+        lib.loop(calls,client)
         for i in range(10):
             exit.wait(1)
 
@@ -37,5 +37,5 @@ if __name__ == '__main__':
         try:
             signal.signal(getattr(signal, 'SIG'+sig), quit);
         except:
-            print(":(")
+            print("Could not register SIG"+sig)
     main()
