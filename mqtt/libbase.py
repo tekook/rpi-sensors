@@ -1,11 +1,12 @@
 # -*- coding: utf-8 -*-
 import json, os
+from pprint import pprint
 import socket
-import sys
 import time
 import paho.mqtt.client as mqtt
 __config = False
 __hostname = False
+__errors = {}
 def getConfig():
     global __config
     if __config == False:
@@ -58,7 +59,16 @@ def getTopic(key):
     hostname = getHostname()
     return bTopic %(hostname, key)
 
+def increaseError(name):
+    global __errors
+    if name in __errors:
+        __errors[name] = __errors[name] + 1
+    else:
+        __errors[name] = 1
+    return __errors[name]
+
 def loop(calls, client: mqtt.Client):
+    global __errors
     config = getConfig()
     for name in calls:
         if(config[name] == True):
@@ -71,6 +81,11 @@ def loop(calls, client: mqtt.Client):
                 jval = json.dumps(val)
                 client.publish(topic, jval)
                 print("Published to %s -> %s" %(topic, jval))
-            except:
-                client.publish(topic, json.dumps({'ERR': str(sys.exc_info()[0]), 'time': time.strftime("%Y-%m-%dT%H:%M:%S")}))
-                print("ERR: " + name + ": " + str(sys.exc_info()[0]))
+                __errors[name] = 0
+            except Exception as err:
+                errors = increaseError(name)
+                jval = json.dumps({'ERR': str(err), 'ERRCOUNT': errors, 'time': time.strftime("%Y-%m-%dT%H:%M:%S")})
+                client.publish(topic, jval)
+                print("Published ERR to %s -> %s" %(topic, jval))
+                if errors >= 10:
+                    config[name] = False
