@@ -5,7 +5,7 @@ import socket
 import time
 import paho.mqtt.client as mqtt
 __config = False
-__hostname = False
+__hostId = False
 __errors = {}
 def getConfig():
     global __config
@@ -32,10 +32,9 @@ def on_connect(client: mqtt.Client, userdata, flags, rc):
 
 def create_client_from_config():
     config = getConfig()
-    hostname = socket.gethostname()
     cMqtt = config['mqtt']
     client =mqtt.Client(
-        hostname, 
+        getHostIdentifier(), 
         transport=cMqtt['transport'], 
         protocol=mqtt.MQTTv311, 
         clean_session=True
@@ -47,16 +46,16 @@ def create_client_from_config():
     client.connect(cMqtt['hostname'], cMqtt['port'], keepalive=60)
     return client
 
-def getHostname():
-    global __hostname
-    if __hostname == False:
-        __hostname = socket.gethostname()
-    return __hostname
+def getHostIdentifier():
+    global __hostId
+    if __hostId == False:
+        __hostId = socket.gethostname()
+    return __hostId
 
 def getTopic(key):
     config = getConfig()
     bTopic = config['mqtt']['topic']
-    hostname = getHostname()
+    hostname = getHostIdentifier()
     return bTopic %(hostname, key)
 
 def increaseError(name):
