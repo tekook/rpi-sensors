@@ -5,7 +5,8 @@
         "username": "develop",
         "password": "",
         "transport": "tcp",
-        "topic": "tekook/%s/%s"
+        "topic": "tekook/%s/%s",
+        "teleperiod": 10
     },
     "hub": {
         "enable": false,
@@ -13,12 +14,12 @@
         "addr": "0x17"
     },
     "dht22": {
-        "enable": true,
+        "enable": false,
         "pin": 12
     },
-    "ds18b20": true,
-    "ltr390": true,
-    "mcp9808": true,
+    "ds18b20": false,
+    "ltr390": false,
+    "mcp9808": false,
     "sht4x": true,
-    "dps310": true
+    "dps310": false
 }

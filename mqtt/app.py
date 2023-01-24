@@ -24,7 +24,7 @@ def main():
     client.loop_start()
     while not exit.is_set():
         lib.loop(calls,client)
-        for i in range(5):
+        for i in range(config['mqtt']['teleperiod'] or 10):
             exit.wait(1)
 
     client.loop_stop() 
