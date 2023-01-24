@@ -3,18 +3,19 @@ import json, os
 from pprint import pprint
 import socket
 import time
+from dotmap import DotMap
 import paho.mqtt.client as mqtt
 __config = False
 __hostId = False
 __errors = {}
-def getConfig():
+def getConfig() -> DotMap:
     global __config
     if __config == False:
         print("Reading config...")
         d = os.path.dirname(os.path.realpath(__file__))
         f = open(d + "/config.json", "r")
         config = json.load(f)
-        __config = config
+        __config = DotMap(config, _dynamic=False)
         f.close()
     return __config
 
@@ -30,35 +31,35 @@ def on_connect(client: mqtt.Client, userdata, flags, rc):
     else:
         print("Bad connection Returned code=",rc)
 
-def create_client_from_config():
+def create_client_from_config() -> mqtt.Client:
     config = getConfig()
-    cMqtt = config['mqtt']
+    cMqtt = config.mqtt
     client =mqtt.Client(
         getHostIdentifier(), 
-        transport=cMqtt['transport'], 
+        transport=cMqtt.transport, 
         protocol=mqtt.MQTTv311, 
         clean_session=True
         )
-    client.username_pw_set(cMqtt['username'], cMqtt['password'])
+    client.username_pw_set(cMqtt.username, cMqtt.password)
     client.on_connect = on_connect
     client.on_message = on_message
     client.will_set(getTopic("LWT"), payload="Offline", qos=0, retain=True)
-    client.connect(cMqtt['hostname'], cMqtt['port'], keepalive=60)
+    client.connect(cMqtt.hostname, cMqtt.port, keepalive=60)
     return client
 
-def getHostIdentifier():
+def getHostIdentifier()->str:
     global __hostId
     if __hostId == False:
         __hostId = socket.gethostname()
     return __hostId
 
-def getTopic(key):
+def getTopic(key:str):
     config = getConfig()
-    bTopic = config['mqtt']['topic']
+    bTopic = config.mqtt.topic
     hostname = getHostIdentifier()
     return bTopic %(hostname, key)
 
-def increaseError(name):
+def increaseError(name: str) -> int:
     global __errors
     if name in __errors:
         __errors[name] = __errors[name] + 1

@@ -14,3 +14,4 @@ Adafruit-PureIO
 paho-mqtt
 w1thermsensor
 hidapi
+dotmap
