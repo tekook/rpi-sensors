@@ -6,7 +6,7 @@ __i2c = False
 def getI2C() -> board.I2C:
     global __i2c
     if __i2c == False:
-        __i2c = board.i2c()
+        __i2c = board.I2C()
     return __i2c
 
 def getDS18B20():
@@ -25,6 +25,24 @@ def getLTR390():
     return {
         "uvs": ltr.uvs,
         "light": ltr.light,
+        "time": time.strftime("%Y-%m-%dT%H:%M:%S")
+    }
+def getBH1750():
+    import adafruit_bh1750
+    res = adafruit_bh1750.BH1750(getI2C())
+    return {
+        "resolution": res.resolution,
+        "mode": res.mode,
+        "lux": res.lux,
+        "time": time.strftime("%Y-%m-%dT%H:%M:%S")
+    }
+
+def getVEML7700():
+    import adafruit_veml7700
+    res = adafruit_veml7700.VEML7700(getI2C())
+    return {
+        "lux": res.lux,
+        "light": res.light,
         "time": time.strftime("%Y-%m-%dT%H:%M:%S")
     }
 

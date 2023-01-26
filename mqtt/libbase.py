@@ -5,7 +5,9 @@ import socket
 import time
 from dotmap import DotMap
 import paho.mqtt.client as mqtt
+import libsensors as sensors
 __config = False
+__calls = False
 __hostId = False
 __errors = {}
 def getConfig() -> DotMap:
@@ -18,6 +20,21 @@ def getConfig() -> DotMap:
         __config = DotMap(config, _dynamic=False)
         f.close()
     return __config
+
+def getCalls():
+    global __calls
+    if __calls == False:
+        __calls = {
+            'sht4x':    {'func': sensors.getSHT4X, 'arg': False},
+            'ltr390':   {'func': sensors.getLTR390, 'arg': False},
+            'ds18b20':  {'func': sensors.getDS18B20, 'arg': False},
+            'mcp9808':  {'func': sensors.getMCP9808, 'arg': False},
+            'dps310':   {'func': sensors.getDPS310, 'arg': False},
+            'bh1750':   {'func': sensors.getBH1750, 'arg': False},
+            'veml7700': {'func': sensors.getVEML7700, 'arg': False},
+            'hub':      {'func': sensors.getHUB, 'arg': False},
+        }
+    return __calls
 
 def on_message(client, userdata, message,tmp=None):
     print(" Received message " + str(message.payload)
@@ -67,9 +84,10 @@ def increaseError(name: str) -> int:
         __errors[name] = 1
     return __errors[name]
 
-def loop(calls, client: mqtt.Client):
+def loop(client: mqtt.Client):
     global __errors
     config = getConfig()
+    calls = getCalls()
     for name in calls:
         if(config[name] == True):
             topic = getTopic(name)
