@@ -24,7 +24,9 @@ def getLTR390():
     ltr = adafruit_ltr390.LTR390(getI2C())
     return {
         "uvs": ltr.uvs,
+        "uvi": ltr.uvi,
         "light": ltr.light,
+        "lux": ltr.lux,
         "time": time.strftime("%Y-%m-%dT%H:%M:%S")
     }
 def getBH1750():
@@ -65,6 +67,7 @@ def getSHT4X():
         "temp_rounded": round(float(temperature),2),
         "humidity": float(relative_humidity),
         "humidity_rounded": round(float(relative_humidity), 2),
+        "serial_number": sht.serial_number,
         "time": time.strftime("%Y-%m-%dT%H:%M:%S")
     }
 
@@ -78,6 +81,7 @@ def getDPS310():
         "temp_rounded": round(float(temperature),2),
         "pressure": float(pressure),
         "pressure_rounded": round(float(pressure), 2),
+        "altitude": dps310.altitude,
         "time": time.strftime("%Y-%m-%dT%H:%M:%S")
     }
 
