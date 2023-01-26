@@ -1,6 +1,13 @@
 # -*- coding: utf-8 -*-
-import time
+import time, board
 
+__i2c = False
+
+def getI2C() -> board.I2C:
+    global __i2c
+    if __i2c == False:
+        __i2c = board.i2c()
+    return __i2c
 
 def getDS18B20():
     from w1thermsensor import W1ThermSensor
@@ -12,27 +19,27 @@ def getDS18B20():
         "time": time.strftime("%Y-%m-%dT%H:%M:%S")
     }
 
-def getLTR390(i2c):
+def getLTR390():
     import adafruit_ltr390
-    ltr = adafruit_ltr390.LTR390(i2c)
+    ltr = adafruit_ltr390.LTR390(getI2C())
     return {
         "uvs": ltr.uvs,
         "light": ltr.light,
         "time": time.strftime("%Y-%m-%dT%H:%M:%S")
     }
 
-def getMCP9808(i2c):
+def getMCP9808():
     import adafruit_mcp9808
-    mcp = adafruit_mcp9808.MCP9808(i2c)
+    mcp = adafruit_mcp9808.MCP9808(getI2C())
     return {
         "temp": float(mcp.temperature),
         "temp_rounded": round(float(mcp.temperature), 2),
         "time": time.strftime("%Y-%m-%dT%H:%M:%S")
     }
 
-def getSHT4X(i2c):
+def getSHT4X():
     import adafruit_sht4x
-    sht = adafruit_sht4x.SHT4x(i2c)
+    sht = adafruit_sht4x.SHT4x(getI2C())
     sht.mode = adafruit_sht4x.Mode.NOHEAT_HIGHPRECISION
     temperature, relative_humidity = sht.measurements
     return {
@@ -43,9 +50,9 @@ def getSHT4X(i2c):
         "time": time.strftime("%Y-%m-%dT%H:%M:%S")
     }
 
-def getDPS310(i2c):
+def getDPS310():
     import adafruit_dps310
-    dps310 = adafruit_dps310.DPS310(i2c)
+    dps310 = adafruit_dps310.DPS310(getI2C())
     temperature = dps310.temperature
     pressure = dps310.pressure
     return {

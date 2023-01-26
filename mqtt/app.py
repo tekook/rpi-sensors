@@ -1,19 +1,17 @@
 from threading import Event
-import board, time, socket, json
 import libbase as lib, libsensors as sensors
-i2c = board.I2C()
 
 calls = {
-    'sht4x': {'func': sensors.getSHT4X, 'arg': board.I2C},
-    'ltr390': {'func': sensors.getLTR390, 'arg': board.I2C},
+    'sht4x': {'func': sensors.getSHT4X, 'arg': False},
+    'ltr390': {'func': sensors.getLTR390, 'arg': False,
     'ds18b20': {'func': sensors.getDS18B20, 'arg': False},
-    'mcp9808': {'func': sensors.getMCP9808, 'arg': board.I2C},
-    'dps310': {'func': sensors.getDPS310, 'arg': board.I2C},
+    'mcp9808': {'func': sensors.getMCP9808, 'arg': False},
+    'dps310': {'func': sensors.getDPS310, 'arg': False},
     'hub': {'func': sensors.getHUB, 'arg': False}
 }
 
-client = lib.create_client_from_config()
-config = lib.getConfig()
+client=lib.create_client_from_config()
+config=lib.getConfig()
 
 run = True
 exit = Event()
