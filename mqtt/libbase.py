@@ -31,8 +31,7 @@ def getCalls():
             'mcp9808':  {'func': sensors.getMCP9808, 'arg': False},
             'dps310':   {'func': sensors.getDPS310, 'arg': False},
             'bh1750':   {'func': sensors.getBH1750, 'arg': False},
-            'veml7700': {'func': sensors.getVEML7700, 'arg': False},
-            'hub':      {'func': sensors.getHUB, 'arg': False},
+            'veml7700': {'func': sensors.getVEML7700, 'arg': False}
         }
     return __calls
 
@@ -42,15 +41,18 @@ def on_message(client, userdata, message,tmp=None):
         + "' with QoS " + str(message.qos))
 
 def on_log(client, userdata, level, buf):
-    print("log: ",buf)
+    global __config
+    if __config.get("mqtt", default=DotMap()).get("log", False):
+        print("log:",buf)
 
 def on_connect(client: mqtt.Client, userdata, flags, rc):
     if rc==0:
         print("connected OK Returned code=",rc)
         client.publish(getTopic('LWT'), payload="Online", qos=0, retain=True)
-        client.connected
+        client.connected = True
     else:
         print("Bad connection Returned code=",rc)
+        client.connected = False
 
 def create_client_from_config() -> mqtt.Client:
     config = getConfig()
@@ -103,10 +105,10 @@ def loop(client: mqtt.Client):
     config = getConfig()
     calls = getCalls()
     for name in calls:
-        if(config[name] == True):
+        if(config.get(name, False) == True):
             topic = getTopic(name)
             try:
-                if(calls[name]['arg'] != False):
+                if(calls.get(name + ".arg", False) != False):
                     val = calls[name]['func'](calls[name]['arg']())
                 else:
                     val = calls[name]['func']()

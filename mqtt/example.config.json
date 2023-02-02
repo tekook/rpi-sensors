@@ -6,12 +6,9 @@
         "password": "",
         "transport": "tcp",
         "topic": "tekook/%s/%s",
-        "teleperiod": 10
-    },
-    "hub": {
-        "enable": false,
-        "bus": 1,
-        "addr": "0x17"
+        "teleperiod": 10,
+        "precision": 2,
+        "log": false
     },
     "dht22": {
         "enable": false,
